@@ -2,18 +2,30 @@
   <strong>Title:</strong>
   <%= @post.title %>
 </p>
- 
+ <hr>
 
  <h3>total comments :<%= @post.comments.count%></h3>
+ <hr>
 <h2>Comments</h2>
 <% @post.comments.each do |comment| %>
   <p>
     <strong>Comment:</strong>
     <%= comment.title %>
+     <%= link_to ' delete comment', [comment.post, comment], method: :delete, data: { confirm: 'Are you sure?' } %>||
+    <%= link_to ' edit comment', edit_post_comment_path(comment.post, comment), data: { confirm: 'Are you sure what to edit?' } %>
+   <%= link_to ' reply on comment',  new_post_comment_reply_path(comment.post, comment) %>
+    <hr>
+    <h3>total replies:<%=comment.replies.count%> </h3>
+
+    <%comment.replies.each do |reply|%>
+    
+    <h4>reply:<%=reply.reply_on_comment%></h4>
+    <%= link_to ' delete reply', post_comment_reply_path(reply.comment.post, reply.comment, reply), method: :delete, data: { confirm: 'Are you sure?' } %>||
+  <%= link_to ' edit reply', edit_post_comment_reply_path(reply.comment.post,reply.comment, reply), data: { confirm: 'Are you sure what to edit?' } %>
+    <%end%>
   </p>
-  <%= link_to ' delete comment', [comment.post, comment], method: :delete, data: { confirm: 'Are you sure?' } %>||
-  <%= link_to ' edit comment', edit_post_comment_path(comment.post, comment), data: { confirm: 'Are you sure what to edit?' } %>
- 
+
+  
   
 <% end %>
  
